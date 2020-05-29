@@ -38,6 +38,10 @@ void Tarea::setEmpleado(Empleado* empleado) {
 	this->empleado = empleado;
 }
 
+void Tarea::setCarga(int carga) {
+	this->carga = carga;
+}
+
 //DESTRUCTORS
 Tarea::~Tarea()
 {

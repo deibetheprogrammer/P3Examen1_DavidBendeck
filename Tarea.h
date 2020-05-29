@@ -23,6 +23,7 @@ class Tarea
 		
 		//SETTERS
 		void setEmpleado(Empleado*);
+		void setCarga(int);
 		
 		//DESTRUCTORS
 		~Tarea();

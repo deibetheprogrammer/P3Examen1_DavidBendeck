@@ -13,7 +13,7 @@ using std::endl;
 using std::getline;
 
 //Funcion que realiza la simulación
-void simulacion(vector<Empleado>, vector<Tarea*>);
+void simulacion(vector<Empleado>, vector<Tarea*>&);
 
 int main(int argc, char** argv) {
 	
@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
 			<<"4) Crear tarea" << endl
 			<<"5) Listar tareas" << endl
 			<<"6) Inciciar proyecto" << endl
-			<<"7) Salir"
+			<<"7) Salir" << endl
 			<<"Su eleccion: ";
 	
 		int opcion;
@@ -168,6 +168,10 @@ int main(int argc, char** argv) {
 			}
 			case 6: {
 				
+				cout << "***INICIO DEL PROYECTO ACTUAL***" << "\n\n";
+				
+				simulacion(empleados,tareas);
+				
 				break;
 			}
 			case 7: {
@@ -207,7 +211,7 @@ void simulacion(vector<Empleado> empleados, vector<Tarea*> &tareas) {
 	int lograron = 0;
 	
 	//SIMULACION
-	while(tareas.size() > 0 || enProgreso > 0) {
+	while(true) {
 		
 		
 		cout << "\n\n"
@@ -231,6 +235,11 @@ void simulacion(vector<Empleado> empleados, vector<Tarea*> &tareas) {
 		switch(opcion) {
 			case 1: {
 				
+				if(tareas.size() == 0 && enProgreso == 0) {
+					cout << endl << "PROYECTO TERMINADO, REPORTE O SALIR" << endl;
+					break;
+				}
+				
 				//ASIGNAR TAREAS
 				for (int i = 1; i < 4; i++) {
 					for(int j = 0; j < empleados.size(); j++) {
@@ -246,9 +255,40 @@ void simulacion(vector<Empleado> empleados, vector<Tarea*> &tareas) {
 				}
 				
 				//EJECUCION DE TAREAS
+				
+				//resetear los valores
+				enProgreso = 0;
+				perezosos = 0;
+				fallaron = 0;
+				lograron = 0;
+				
 				for(int i = 0; i < empleados.size(); i++) {
-					
+					if(empleados[i].getTarea() != nullptr) {
+						
+						enProgreso++;
+						
+						if(empleados[i].getPereza() >= 1+rand()%100) {
+							perezosos += 1;
+							continue;
+						}
+						if (empleados[i].getHabilidad() < 1+rand()%100) {
+							fallaron += 1;
+							continue;
+						}
+						lograron += 1;
+						empleados[i].getTarea()->setCarga(empleados[i].getTarea()->getCarga()-1);
+						
+						if(empleados[i].getTarea()->getCarga() == 0) {
+							
+							enProgreso--;
+							delete empleados[i].getTarea();
+							empleados[i].setTarea(nullptr);
+						}
+					}
 				}
+				
+				//PASO UN DIA
+				dias--;
 				
 				break;
 			}
@@ -265,7 +305,21 @@ void simulacion(vector<Empleado> empleados, vector<Tarea*> &tareas) {
 			}
 			case 3: {
 				
-				break;
+				//Borrar las tareas en progreso
+				for(int i = 0; i < empleados.size(); i++) {
+					
+					delete empleados[i].getTarea();
+					empleados[i].setTarea(nullptr);
+					
+				}
+				
+				//Borrar las tareas sin asignar
+				while(tareas.size() > 0) {
+					delete tareas[0];
+					tareas.erase(tareas.begin());
+				}
+				
+				return;
 			}
 		}
 		
