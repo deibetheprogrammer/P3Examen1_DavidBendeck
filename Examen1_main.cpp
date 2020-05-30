@@ -285,6 +285,7 @@ void simulacion(vector<Empleado> empleados, vector<Tarea*> &tareas) {
 								if(tareas[k]->getNivel() <= i) {
 									empleados[j].setTarea(tareas[k]);
 									tareas.erase(tareas.begin()+k);
+									break;
 								}
 							}
 						}
