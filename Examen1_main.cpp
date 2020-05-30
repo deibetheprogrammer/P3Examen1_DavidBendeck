@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
 				while (!cin || (edad < 18 || edad > 80)) {
 					cin.clear ();    // Restore input stream to working state
     				cin.ignore ( 100 , '\n' );    // Get rid of any garbage that user might have entered
-   		 			cout << "Por favor, ingrese una edad entre 18 y 80";
+   		 			cout << "Por favor, ingrese una edad entre 18 y 80: ";
     				cin >> edad; 
 				}
 				
@@ -113,16 +113,41 @@ int main(int argc, char** argv) {
 				
 				break;
 			}
-			case 2: {
-				
-				break;
-			}
+			case 2: 
 			case 3: {
+				
+				
+				for(int i = 0; i < empleados.size(); i++) {
+					cout << "Empleado " << i << ": "
+						 << "Nombre: " << empleados[i].getNombre() << " | "
+						 << "Edad: " << empleados[i].getEdad() << " | "
+						 << "Nivel: " << empleados[i].getNivel() << " | "
+						 << "Habilidad: " << empleados[i].getHabilidad() << " | "
+						 << "Pereza: " << empleados[i].getPereza() << "\n";
+				}
+				
+				if(opcion == 2) {
+					
+					cout << "Ingrese el numero del empleado que desea borrar: ";
+					int despedido;
+					cin >> despedido;
+					
+					while (!cin || (despedido < 0 || despedido >= empleados.size())) {
+						cin.clear ();    // Restore input stream to working state
+    					cin.ignore ( 100 , '\n' );    // Get rid of any garbage that user might have entered
+   		 				cout << "Por favor, ingrese una opcion valida: ";
+    					cin >> despedido; 
+					}
+					
+					empleados.erase(empleados.begin() + despedido);
+					
+				}
 				
 				break;
 			}
 			case 4: {
 				
+				cin.ignore ( 100 , '\n' ); 
 				cout << "***CREAR TAREA***" << "\n\n"
 					 << "Ingrese una descripcion: ";
 				string descripcion;
@@ -163,6 +188,18 @@ int main(int argc, char** argv) {
 				break;
 			}
 			case 5: {
+				
+				cout << endl;
+				
+				for(int i = 0; i < tareas.size(); i++) {
+					cout << "Tarea " << i << " : "
+						 << "Descripcion :" << tareas[i]->getDescripcion() << " | "
+						 << "Nivel :" << tareas[i]->getNivel() << " | "
+						 << "Carga :" << tareas[i]->getCarga() << "\n";
+						 
+				}
+				
+				cout << "\n\n";
 				
 				break;
 			}
