@@ -139,6 +139,9 @@ int main(int argc, char** argv) {
     					cin >> despedido; 
 					}
 					
+					cout << endl
+						 << "Empleado despedido: " << empleados[despedido].getNombre() << "\n\n";
+					
 					empleados.erase(empleados.begin() + despedido);
 					
 				}
